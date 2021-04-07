@@ -1,17 +1,18 @@
 package com.bhagyawant.weatherapp.repositories
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import com.bhagyawant.weatherapp.network.ApiInterface
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Callback
+import com.bhagyawant.weatherapp.network.responses.WeatherResponse
 import retrofit2.Response
 
 class WeatherRepository {
 
-    fun getWeatherForeCast(lat: String, lon: String, appid: String): LiveData<String> {
-         val weatherResponse = MutableLiveData<String>()
+    suspend fun getWeatherForeCast(
+        units: String,
+        lat: String,
+        lon: String,
+        appid: String
+    ): Response<WeatherResponse> {
+        /*val weatherResponse = MutableLiveData<String>()
 
         ApiInterface().getWeatherForecast(lat,lon,appid).enqueue(object : Callback<ResponseBody> {
             override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
@@ -29,7 +30,9 @@ class WeatherRepository {
 
         })
 
-        return weatherResponse
+        return weatherResponse*/
+
+        return ApiInterface().getWeatherForecast(units,lat, lon, appid)
     }
 
 

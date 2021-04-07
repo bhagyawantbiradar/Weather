@@ -10,12 +10,28 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bhagyawant.weatherapp.R
 import com.bhagyawant.weatherapp.databinding.FragmentBookmarksBinding
+import com.bhagyawant.weatherapp.network.responses.WeatherResponse
+import com.bhagyawant.weatherapp.utils.hide
+import com.bhagyawant.weatherapp.utils.show
 import com.bhagyawant.weatherapp.utils.toast
+import kotlinx.android.synthetic.main.fragment_bookmarks.*
 
 
 class BookmarksFragment : Fragment(), WeatherApiListener {
 
     private var bookmarksBinding: FragmentBookmarksBinding? = null;
+
+
+
+    companion object{
+        var bookmarksFragment : BookmarksFragment? = null
+        fun getInstance():BookmarksFragment{
+            if (bookmarksFragment==null){
+                bookmarksFragment = BookmarksFragment()
+            }
+            return bookmarksFragment as BookmarksFragment
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,15 +62,15 @@ class BookmarksFragment : Fragment(), WeatherApiListener {
 
     override fun onStarted() {
         activity?.toast("Started")
+        progress_bar.show()
     }
 
-    override fun onSuccess(weatherResponse: LiveData<String>) {
-        weatherResponse.observe(this, Observer {
-            activity?.toast(it)
-        })
+    override fun onSuccess(weatherResponse: WeatherResponse) {
+        activity?.toast("${weatherResponse.name}")
     }
 
     override fun onFailure() {
         activity?.toast("Failure")
+        progress_bar.hide()
     }
 }
