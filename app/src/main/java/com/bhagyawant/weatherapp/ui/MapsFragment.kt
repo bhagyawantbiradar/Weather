@@ -1,4 +1,4 @@
-package com.bhagyawant.weatherapp.fragments
+package com.bhagyawant.weatherapp.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater

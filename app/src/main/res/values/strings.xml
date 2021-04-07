@@ -2,4 +2,6 @@
     <string name="app_name">My Application</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="no_bookmarks_available_nplease_add_bookmarks_in_list">No Bookmarks Available \n Please Add Bookmarks In List</string>
+    <string name="add_bookmark">Add Bookmark</string>
 </resources>
