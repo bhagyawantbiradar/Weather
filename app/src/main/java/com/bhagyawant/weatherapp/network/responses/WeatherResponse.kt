@@ -9,6 +9,7 @@ data class WeatherResponse (
 	@SerializedName("main") val main : Main,
 	@SerializedName("visibility") val visibility : Int,
 	@SerializedName("wind") val wind : Wind,
+	@SerializedName("rain") val rain : Rain,
 	@SerializedName("clouds") val clouds : Clouds,
 	@SerializedName("dt") val dt : Int,
 	@SerializedName("sys") val sys : Sys,
