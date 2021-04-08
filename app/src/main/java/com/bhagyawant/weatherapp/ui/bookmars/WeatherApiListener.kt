@@ -8,5 +8,5 @@ interface WeatherApiListener {
 
     fun onSuccess(weatherResponse: WeatherResponse)
 
-    fun onFailure()
+    fun onFailure(message : String)
 }

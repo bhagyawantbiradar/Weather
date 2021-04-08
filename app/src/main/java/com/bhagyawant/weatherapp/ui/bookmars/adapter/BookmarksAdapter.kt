@@ -8,7 +8,10 @@ import com.bhagyawant.weatherapp.R
 import com.bhagyawant.weatherapp.data.db.entities.Bookmark
 import kotlinx.android.synthetic.main.item_bookmark.view.*
 
-class BookmarksAdapter(val bookmarks: List<Bookmark>, val bookmarkItemClickListener: BookmarkItemClickListener) :
+class BookmarksAdapter(
+    val bookmarks: ArrayList<Bookmark>,
+    val bookmarkItemClickListener: BookmarkItemClickListener
+) :
     RecyclerView.Adapter<BookmarksAdapter.ViewHolder>() {
 
 
@@ -25,6 +28,12 @@ class BookmarksAdapter(val bookmarks: List<Bookmark>, val bookmarkItemClickListe
         holder.view.setOnClickListener {
             bookmarkItemClickListener.onItemClicked(bookmark)
         }
+
+        holder.view.iv_delete.setOnClickListener {
+            bookmarkItemClickListener.onDeleteClicked(bookmark)
+            bookmarks.remove(bookmark)
+            notifyItemRemoved(position)
+        }
     }
 
     override fun getItemCount() = bookmarks.size
@@ -32,7 +41,8 @@ class BookmarksAdapter(val bookmarks: List<Bookmark>, val bookmarkItemClickListe
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view)
 
-    interface BookmarkItemClickListener{
+    interface BookmarkItemClickListener {
         fun onItemClicked(bookmark: Bookmark)
+        fun onDeleteClicked(bookmark: Bookmark)
     }
 }

@@ -22,7 +22,7 @@ class BookmarksViewModel : ViewModel() {
             if (response.isSuccessful) {
                 response.body()?.let { weatherApiListener?.onSuccess(it) }
             } else {
-                weatherApiListener?.onFailure()
+                weatherApiListener?.onFailure("Failed to load weather")
             }
         }
     }

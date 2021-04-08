@@ -14,6 +14,7 @@ import com.bhagyawant.weatherapp.databinding.FragmentBookmarksBinding
 import com.bhagyawant.weatherapp.network.responses.WeatherResponse
 import com.bhagyawant.weatherapp.ui.BaseFragment
 import com.bhagyawant.weatherapp.ui.bookmars.adapter.BookmarksAdapter
+import com.bhagyawant.weatherapp.utils.CommonUtils
 import com.bhagyawant.weatherapp.utils.hide
 import com.bhagyawant.weatherapp.utils.show
 import com.bhagyawant.weatherapp.utils.toast
@@ -66,7 +67,8 @@ class BookmarksFragment : BaseFragment(), WeatherApiListener,
 
         launch {
             context?.let {
-                val bookmarks = AppDatabase(it).getBookmarksDao().getBookmarks()
+                val bookmarks = ArrayList<Bookmark>()
+                bookmarks.addAll(AppDatabase(it).getBookmarksDao().getBookmarks())
                 if (bookmarks.size > 0) {
                     tv_empty_msg.visibility = View.GONE
                     rv_bookmarks.visibility = View.VISIBLE
@@ -127,13 +129,25 @@ class BookmarksFragment : BaseFragment(), WeatherApiListener,
     }
 
 
-    override fun onFailure() {
+    override fun onFailure(message: String) {
         progress_bar.hide()
-        context?.toast(getString(R.string.failed_to_load_weather))
+        context?.toast(message)
     }
 
     override fun onItemClicked(bookmark: Bookmark) {
-        viewModel?.getWeatherForecast(bookmark)
+        if (CommonUtils.isNetworkAvailable(context))
+            viewModel?.getWeatherForecast(bookmark)
+        else onFailure("Internet unavailable")
     }
+
+    override fun onDeleteClicked(bookmark: Bookmark) {
+        launch {
+            context?.let {
+                AppDatabase(it).getBookmarksDao().delete(bookmark)
+            }
+        }
+    }
+
+
 }
 
