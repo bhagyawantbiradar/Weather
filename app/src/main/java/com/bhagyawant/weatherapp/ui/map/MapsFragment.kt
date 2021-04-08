@@ -3,6 +3,7 @@ package com.bhagyawant.weatherapp.ui.map
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
+import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +12,8 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.bhagyawant.weatherapp.R
+import com.bhagyawant.weatherapp.data.db.AppDatabase
+import com.bhagyawant.weatherapp.data.db.entities.Bookmark
 import com.bhagyawant.weatherapp.utils.toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -64,6 +67,11 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
         addMap()
     }
 
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+    }
+
     private fun addMarker(lanlng: LatLng?) {
 
         var geocoder = Geocoder(activity, Locale.getDefault())
@@ -94,12 +102,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
 
     }
 
-    private fun showBookmarkDialog(context: Context, lanlng: LatLng, locality: String?) {
+    private fun showBookmarkDialog(context: Context, latlng: LatLng, locality: String) {
         val builder = AlertDialog.Builder(context)
         builder.setTitle(getString(R.string.bookmark_q))
         builder.setMessage("Do you want to bookmark ${locality}?")
 
         builder.setPositiveButton(android.R.string.yes) { dialog, which ->
+
+            addBookmark(Bookmark(locality, latlng.latitude.toString(), latlng.longitude.toString()))
+
+            dialog.dismiss()
+
 
         }
 
@@ -141,4 +154,34 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
         mMap.clear()
         addMarker(lanlng)
     }
+
+
+
+    @Deprecated(
+        message = "implemented coroutines later"
+    )
+    private fun addBookmark(bookmark: Bookmark) {
+        class AddBookmark : AsyncTask<Void, Void, Void>() {
+            override fun doInBackground(vararg params: Void?): Void? {
+                activity?.let {
+                    AppDatabase(it).getBookmarksDao().insert(
+                        bookmark
+                    )
+                }
+
+                return null
+
+            }
+
+            override fun onPostExecute(result: Void?) {
+                super.onPostExecute(result)
+                activity?.toast("Bookmark added")
+                activity?.onBackPressed()
+            }
+
+        }
+
+        AddBookmark().execute()
+    }
+
 }

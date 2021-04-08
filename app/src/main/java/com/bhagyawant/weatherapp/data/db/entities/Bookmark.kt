@@ -5,9 +5,12 @@ import androidx.room.PrimaryKey
 
 @Entity
 data class Bookmark(
+
+    val city: String,
+    val lat: String,
+    val lon: String
+) {
     @PrimaryKey(autoGenerate = true)
-    var id: Int? = null,
-    var city: String? = null,
-    var lat: String? = null,
-    var lon: String?
-)
+    var id: Int = 0
+
+}

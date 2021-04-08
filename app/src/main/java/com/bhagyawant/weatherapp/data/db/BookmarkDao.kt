@@ -13,7 +13,7 @@ interface BookmarkDao {
     @Insert
     fun insert(bookmark : Bookmark) : Long
 
-    @Query("SELECT * FROM BOOKMARK")
+    @Query("SELECT * FROM bookmark")
     fun getBookmarks() : LiveData<List<Bookmark>>
 
     @Delete
