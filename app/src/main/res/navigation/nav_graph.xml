@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/bookmarksFragment">
+
+    <fragment
+        android:id="@+id/bookmarksFragment"
+        android:name="com.bhagyawant.weatherapp.ui.bookmars.BookmarksFragment"
+        android:label="Bookmarks">
+        <action
+            android:id="@+id/action_go_to_map"
+            app:destination="@id/mapsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mapsFragment"
+        android:name="com.bhagyawant.weatherapp.ui.map.MapsFragment"
+        android:label="Select Location" >
+        <action
+            android:id="@+id/action_bookmar_added"
+            app:destination="@id/bookmarksFragment" />
+    </fragment>
+</navigation>

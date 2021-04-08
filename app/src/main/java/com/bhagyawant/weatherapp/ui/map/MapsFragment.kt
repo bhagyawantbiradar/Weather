@@ -18,7 +18,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import kotlinx.android.synthetic.main.fragment_maps.*
 import java.util.*
 
 class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListener,
@@ -62,9 +61,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        /*val mapFragment =
-            childFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
-        mapFragment?.getMapAsync(callback)*/
         addMap()
     }
 
@@ -133,7 +129,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
     }
 
     override fun onCameraMove() {
-        pinImageView.visibility = View.GONE
         mMap.clear()
 
     }

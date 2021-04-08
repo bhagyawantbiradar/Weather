@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import com.bhagyawant.weatherapp.R
 import com.bhagyawant.weatherapp.databinding.FragmentBookmarksBinding
 import com.bhagyawant.weatherapp.network.responses.WeatherResponse
@@ -50,6 +51,16 @@ class BookmarksFragment : Fragment(), WeatherApiListener {
         binding.viewModel = viewModel
         viewModel.weatherApiListener = this
 
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        fab_add.setOnClickListener {
+            val action = BookmarksFragmentDirections.actionGoToMap()
+            Navigation.findNavController(it).navigate(action)
+
+        }
     }
 
     override fun onDestroyView() {
