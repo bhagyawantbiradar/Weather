@@ -34,6 +34,20 @@ android {
         jvmTarget = '1.8'
     }
 
+    signingConfigs {
+
+        release {
+            storeFile file("/home/bhagyawant.biradar/Documents/keystores/WeatherApp.jks")
+            storePassword "53352010031533@b"
+            keyAlias "WeatherApp"
+            keyPassword "53352010031533@b"
+
+            // Optional, specify signing versions used
+            v1SigningEnabled true
+            v2SigningEnabled true
+        }
+    }
+
     dataBinding {
         enabled = true
     }
