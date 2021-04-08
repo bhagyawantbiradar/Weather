@@ -1,6 +1,7 @@
 package com.bhagyawant.weatherapp.network.responses
 import com.google.gson.annotations.SerializedName
 
+
 data class WeatherResponse (
 
 	@SerializedName("coord") val coord : Coord,

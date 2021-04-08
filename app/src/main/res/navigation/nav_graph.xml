@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
     app:startDestination="@id/bookmarksFragment">
 
     <fragment
@@ -10,13 +11,26 @@
         <action
             android:id="@+id/action_go_to_map"
             app:destination="@id/mapsFragment" />
+        <action android:id="@+id/action_open_weather_details" />
+        <action
+            android:id="@+id/action_go_to_weather_forecast"
+            app:destination="@id/weatherForecastFragment" />
     </fragment>
     <fragment
         android:id="@+id/mapsFragment"
         android:name="com.bhagyawant.weatherapp.ui.map.MapsFragment"
-        android:label="Select Location" >
+        android:label="Select Location">
         <action
             android:id="@+id/action_bookmar_added"
+            app:destination="@id/bookmarksFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/weatherForecastFragment"
+        android:name="com.bhagyawant.weatherapp.ui.weather_firecast.WeatherForecastFragment"
+        android:label="Weather Forecast">
+        <action android:id="@+id/action_weatherForecastFragment_to_bookmarksFragment" />
+        <action
+            android:id="@+id/action_bookmarks"
             app:destination="@id/bookmarksFragment" />
     </fragment>
 </navigation>

@@ -3,17 +3,16 @@ package com.bhagyawant.weatherapp.ui.map
 import android.content.Context
 import android.location.Address
 import android.location.Geocoder
-import android.os.AsyncTask
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
 import com.bhagyawant.weatherapp.R
 import com.bhagyawant.weatherapp.data.db.AppDatabase
 import com.bhagyawant.weatherapp.data.db.entities.Bookmark
+import com.bhagyawant.weatherapp.ui.BaseFragment
 import com.bhagyawant.weatherapp.utils.toast
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -21,23 +20,15 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import kotlinx.coroutines.launch
 import java.util.*
 
-class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListener,
+class MapsFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListener,
     GoogleMap.OnCameraIdleListener, GoogleMap.OnMapClickListener {
 
     private lateinit var mMap: GoogleMap
 
 
-    companion object {
-        var mapsFragment: MapsFragment? = null
-        fun getInstance(): MapsFragment {
-            if (mapsFragment == null) {
-                mapsFragment = MapsFragment()
-            }
-            return mapsFragment as MapsFragment
-        }
-    }
 
     private val callback = OnMapReadyCallback { googleMap ->
         /**
@@ -109,7 +100,17 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
 
         builder.setPositiveButton(android.R.string.yes) { dialog, which ->
 
-            addBookmark(Bookmark(locality, latlng.latitude.toString(), latlng.longitude.toString()))
+            launch {
+                var bookmark =
+                    Bookmark(locality, latlng.latitude.toString(), latlng.longitude.toString())
+
+                activity?.let {
+                    AppDatabase(it).getBookmarksDao().insert(bookmark)
+                    it.toast("Bookmark Added")
+                }
+            }
+
+
 
             dialog.dismiss()
 
@@ -155,33 +156,5 @@ class MapsFragment : Fragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveListe
         addMarker(lanlng)
     }
 
-
-
-    @Deprecated(
-        message = "implemented coroutines later"
-    )
-    private fun addBookmark(bookmark: Bookmark) {
-        class AddBookmark : AsyncTask<Void, Void, Void>() {
-            override fun doInBackground(vararg params: Void?): Void? {
-                activity?.let {
-                    AppDatabase(it).getBookmarksDao().insert(
-                        bookmark
-                    )
-                }
-
-                return null
-
-            }
-
-            override fun onPostExecute(result: Void?) {
-                super.onPostExecute(result)
-                activity?.toast("Bookmark added")
-                activity?.onBackPressed()
-            }
-
-        }
-
-        AddBookmark().execute()
-    }
 
 }

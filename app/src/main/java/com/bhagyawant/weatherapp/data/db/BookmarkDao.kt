@@ -11,13 +11,13 @@ import com.bhagyawant.weatherapp.data.db.entities.Bookmark
 interface BookmarkDao {
 
     @Insert
-    fun insert(bookmark : Bookmark) : Long
+    suspend fun insert(bookmark : Bookmark) : Long
 
-    @Query("SELECT * FROM bookmark")
-    fun getBookmarks() : LiveData<List<Bookmark>>
+    @Query("SELECT * FROM bookmark ORDER BY id DESC")
+    suspend fun getBookmarks() : List<Bookmark>
 
     @Delete
-    fun delete(bookmark : Bookmark)
+    suspend fun delete(bookmark : Bookmark)
 
 
 }
