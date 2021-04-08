@@ -28,22 +28,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveL
 
     private lateinit var mMap: GoogleMap
 
-
-
-    private val callback = OnMapReadyCallback { googleMap ->
-        /**
-         * Manipulates the map once available.
-         * This callback is triggered when the map is ready to be used.
-         * This is where we can add markers or lines, add listeners or move the camera.
-         * In this case, we just add a marker near Sydney, Australia.
-         * If Google Play services is not installed on the device, the user will be prompted to
-         * install it inside the SupportMapFragment. This method will only be triggered once the
-         * user has installed Google Play services and returned to the app.
-         */
-        val sydney = LatLng(-34.0, 151.0)
-        googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-    }
+    val pune = LatLng(18.5204, 73.8567)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -58,10 +43,6 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveL
         addMap()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-    }
 
     private fun addMarker(lanlng: LatLng?) {
 
@@ -107,6 +88,7 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveL
                 activity?.let {
                     AppDatabase(it).getBookmarksDao().insert(bookmark)
                     it.toast("Bookmark Added")
+                    activity?.onBackPressed()
                 }
             }
 
@@ -136,10 +118,11 @@ class MapsFragment : BaseFragment(), OnMapReadyCallback, GoogleMap.OnCameraMoveL
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
         mMap.setOnCameraMoveListener(this)
         mMap.setOnCameraIdleListener(this)
         mMap.setOnMapClickListener(this)
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(pune))
+
     }
 
     override fun onCameraMove() {
