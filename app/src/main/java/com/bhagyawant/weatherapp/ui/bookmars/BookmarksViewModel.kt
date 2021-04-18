@@ -1,17 +1,17 @@
 package com.bhagyawant.weatherapp.ui.bookmars
 
-import androidx.lifecycle.ViewModel
 import com.bhagyawant.weatherapp.data.db.entities.Bookmark
 import com.bhagyawant.weatherapp.network.ApiUrls
 import com.bhagyawant.weatherapp.repositories.WeatherRepository
-import com.bhagyawant.weatherapp.utils.Coroutines
+import com.bhagyawant.weatherapp.ui.BaseViewModel
+import kotlinx.coroutines.launch
 
-class BookmarksViewModel : ViewModel() {
+class BookmarksViewModel : BaseViewModel() {
 
     var weatherApiListener: WeatherApiListener? = null
 
     fun getWeatherForecast(bookmark: Bookmark) {
-        Coroutines.main {
+        launch {
             weatherApiListener?.onStarted()
             val response = WeatherRepository().getWeatherForeCast(
                 ApiUrls.METRIC,
